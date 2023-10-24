@@ -67,19 +67,19 @@ class wx_db_access_Loader {
 		$this->actions = $this->add( $this->actions, $hook, $component, $callback, $priority, $accepted_args );
 	}
 
-	/**
-	 * Add a new filter to the collection to be registered with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @param    string               $hook             The name of the WordPress filter that is being registered.
-	 * @param    object               $component        A reference to the instance of the object on which the filter is defined.
-	 * @param    string               $callback         The name of the function definition on the $component.
-	 * @param    int                  $priority         Optional. The priority at which the function should be fired. Default is 10.
-	 * @param    int                  $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1
-	 */
-	public function add_filter( $hook, $component, $callback, $priority = 10, $accepted_args = 1 ) {
-		$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
-	}
+	// /**
+	//  * Add a new filter to the collection to be registered with WordPress.
+	//  *
+	//  * @since    1.0.0
+	//  * @param    string               $hook             The name of the WordPress filter that is being registered.
+	//  * @param    object               $component        A reference to the instance of the object on which the filter is defined.
+	//  * @param    string               $callback         The name of the function definition on the $component.
+	//  * @param    int                  $priority         Optional. The priority at which the function should be fired. Default is 10.
+	//  * @param    int                  $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1
+	//  */
+	// public function add_filter( $hook, $component, $callback, $priority = 10, $accepted_args = 1 ) {
+	// 	$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
+	// }
 
 	/**
 	 * A utility function that is used to register the actions and hooks into a single
@@ -116,14 +116,40 @@ class wx_db_access_Loader {
 	 */
 	public function run() {
 
-		foreach ( $this->filters as $hook ) {
-			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+		add_shortcode('wx_station_info', 'wx_get_station_info');
+		add_shortcode('wx_current_obs', 'wx_get_current_obs');
+		//add_shortcode('wx_graph_data', 'wx_get_graph_data');
+
+		function wx_get_station_info($atts = [], $content = null) {
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER);
+			$stationId = $atts['stationid'];
+			$stationInfo = wx_get_from_db('select * from stations where StationID = '.$stationId);
+			return json_encode($stationInfo);
 		}
 
-		foreach ( $this->actions as $hook ) {
-			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+		function wx_get_current_obs($atts = [], $content = null) {
+			$atts = array_change_key_case( (array) $atts, CASE_LOWER);
+			$stationId = $atts['stationid'];
+
+			$currentObs = wx_get_from_db("select * from observations WHERE StationID = ".$stationId." ORDER BY ObservationUTC DESC LIMIT 1");
+			return json_encode($currentObs);
 		}
 
+		// function wx_current_obs() {
+		// 	$wxdb = new wpdb('ksdillons_wx_ro','yj,9@46F4z>o','ksdillons_weather','localhost');
+		// 	$rows = $wxdb->get_results("select StationName from stations");
+		// 	$text = '';
+		// 	foreach ($rows as $obj) {
+		// 		$text .= $obj->StationName;
+		// 	}
+		// 	return $text;
+		// }
+
+		function wx_get_from_db($query = '') {
+			$wxdb = new wpdb('ksdillons_wx_ro','yj,9@46F4z>o','ksdillons_weather','localhost');
+			return $wxdb->get_results($query);
+		}
 	}
 
+	
 }

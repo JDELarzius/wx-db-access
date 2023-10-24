@@ -14,3 +14,4 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<h1>This is a public display of HTML for fun</h1>

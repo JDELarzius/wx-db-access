@@ -80,3 +80,7 @@ function run_wx_db_access() {
 
 }
 run_wx_db_access();
+
+// function create_block_wx_observations() {
+// 	register_block_type( __DIR__ . '/build')
+// }
