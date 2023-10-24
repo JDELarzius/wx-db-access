@@ -116,33 +116,49 @@ class wx_db_access_Loader {
 	 */
 	public function run() {
 
-		add_shortcode('wx_station_info', 'wx_get_station_info');
-		add_shortcode('wx_current_obs', 'wx_get_current_obs');
-		//add_shortcode('wx_graph_data', 'wx_get_graph_data');
+		add_shortcode('wx_station_data', 'wx_get_station_data');
+		// add_shortcode('wx_current_obs', 'wx_get_current_obs');
+		// add_shortcode('wx_graph_data', 'wx_get_graph_data');
 
-		function wx_get_station_info($atts = [], $content = null) {
+		function wx_get_station_data($atts = [], $content = null) {
 			$atts = array_change_key_case( (array) $atts, CASE_LOWER);
 			$stationId = $atts['stationid'];
+
 			$stationInfo = wx_get_from_db('select * from stations where StationID = '.$stationId);
-			return json_encode($stationInfo);
-		}
-
-		function wx_get_current_obs($atts = [], $content = null) {
-			$atts = array_change_key_case( (array) $atts, CASE_LOWER);
-			$stationId = $atts['stationid'];
-
 			$currentObs = wx_get_from_db("select * from observations WHERE StationID = ".$stationId." ORDER BY ObservationUTC DESC LIMIT 1");
-			return json_encode($currentObs);
+			$currentObsDate = $currentObs[0]->ObservationLocalDate;
+			$graphData = wx_get_from_db("select * from observations WHERE StationID = ".$stationId." and ObservationLocalDate = '".$currentObsDate."' and EXTRACT(MINUTE FROM ObservationLocalTime) IN(0,10,20,30,40,50) ORDER BY ObservationUTC DESC");
+			$wxData = new stdClass();
+			$wxData->stationInfo = $stationInfo[0];
+			$wxData->currentObservation = $currentObs[0];
+			$wxData->graphData = $graphData;
+			$wxData->currentObsDate = $currentObsDate;
+
+			return json_encode($wxData);
 		}
 
-		// function wx_current_obs() {
-		// 	$wxdb = new wpdb('ksdillons_wx_ro','yj,9@46F4z>o','ksdillons_weather','localhost');
-		// 	$rows = $wxdb->get_results("select StationName from stations");
-		// 	$text = '';
-		// 	foreach ($rows as $obj) {
-		// 		$text .= $obj->StationName;
-		// 	}
-		// 	return $text;
+		// function wx_get_station_info($atts = [], $content = null) {
+		// 	$atts = array_change_key_case( (array) $atts, CASE_LOWER);
+		// 	$stationId = $atts['stationid'];
+		// 	$stationInfo = wx_get_from_db('select * from stations where StationID = '.$stationId);
+		// 	return json_encode($stationInfo);
+		// }
+
+		// function wx_get_current_obs($atts = [], $content = null) {
+		// 	$atts = array_change_key_case( (array) $atts, CASE_LOWER);
+		// 	$stationId = $atts['stationid'];
+
+		// 	$currentObs = wx_get_from_db("select * from observations WHERE StationID = ".$stationId." ORDER BY ObservationUTC DESC LIMIT 1");
+		// 	return json_encode($currentObs);
+		// }
+
+		// function wx_get_graph_data($atts = [], $content = null) {
+		// 	// $atts = array_change_key_case( (array) $atts, CASE_LOWER);
+		// 	// $stationId = $atts['stationid'];
+
+		// 	$currentDate = date("c");
+		// 	// $currentObs = wx_get_from_db("select * from observations WHERE StationID = ".$stationId." and ObservationLocalDate = ".$currentDate." and EXTRACT(MINUTE FROM ObservationLocalTime) IN(0,10,20,30,40,50) ORDER BY ObservationUTC DESC");
+		// 	return json_encode($currentDate);
 		// }
 
 		function wx_get_from_db($query = '') {
