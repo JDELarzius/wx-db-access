@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  * @author     Your Name <email@example.com>
  */
-class wx-db-access_Deactivator {
+class wx_db_access_Deactivator {
 
 	/**
 	 * Short Description. (use period)

@@ -8,9 +8,10 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    wx-db-access
- * @subpackage wx-db-access/admin/partials
+ * @package    wx_db_access
+ * @subpackage wx_db_access/admin/partials
  */
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<h1>Hello World! I'm a plugin</h1>

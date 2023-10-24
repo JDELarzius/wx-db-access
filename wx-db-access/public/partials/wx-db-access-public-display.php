@@ -8,8 +8,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    wx-db-access
- * @subpackage wx-db-access/public/partials
+ * @package    wx_db_access
+ * @subpackage wx_db_access/public/partials
  */
 ?>
 

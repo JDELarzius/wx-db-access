@@ -22,7 +22,7 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    wx-db-access
+ * @package    wx_db_access
  */
 
 // If uninstall not called from WordPress, then exit.

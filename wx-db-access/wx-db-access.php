@@ -10,18 +10,18 @@
  *
  * @link              http://example.com
  * @since             1.0.0
- * @package           wx-db-access
+ * @package           wx_db_access
  *
  * @wordpress-plugin
- * Plugin Name:       WordPress Plugin Boilerplate
+ * Plugin Name:       KSDillons WX DB Access Plugin
  * Plugin URI:        http://example.com/wx-db-access-uri/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Allows access to the KSDillons WX Database
  * Version:           1.0.0
- * Author:            Your Name or Your Company
- * Author URI:        http://example.com/
+ * Author:            KSdillons.com
+ * Author URI:        https://ksdillons.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wx-db-access
+ * Text Domain:       wx_db_access
  * Domain Path:       /languages
  */
 
@@ -35,28 +35,28 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'wx-db-access_VERSION', '1.0.0' );
+define( 'wx_db_access_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-wx-db-access-activator.php
  */
-function activate_wx-db-access() {
+function activate_wx_db_access() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wx-db-access-activator.php';
-	wx-db-access_Activator::activate();
+	wx_db_access_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-wx-db-access-deactivator.php
  */
-function deactivate_wx-db-access() {
+function deactivate_wx_db_access() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wx-db-access-deactivator.php';
-	wx-db-access_Deactivator::deactivate();
+	wx_db_access_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_wx-db-access' );
-register_deactivation_hook( __FILE__, 'deactivate_wx-db-access' );
+register_activation_hook( __FILE__, 'activate_wx_db_access' );
+register_deactivation_hook( __FILE__, 'deactivate_wx_db_access' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -73,10 +73,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wx-db-access.php';
  *
  * @since    1.0.0
  */
-function run_wx-db-access() {
+function run_wx_db_access() {
 
-	$plugin = new wx-db-access();
+	$plugin = new wx_db_access();
 	$plugin->run();
 
 }
-run_wx-db-access();
+run_wx_db_access();

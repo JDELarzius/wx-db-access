@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  * @author     Your Name <email@example.com>
  */
-class wx-db-access_i18n {
+class wx_db_access_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class wx-db-access_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'wx-db-access',
+			'wx_db_access',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

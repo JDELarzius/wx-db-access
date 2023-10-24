@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  * @author     Your Name <email@example.com>
  */
-class wx-db-access {
+class wx_db_access {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class wx-db-access {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      wx-db-access_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      wx_db_access_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,9 +44,9 @@ class wx-db-access {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $wx-db-access    The string used to uniquely identify this plugin.
+	 * @var      string    $wx_db_access    The string used to uniquely identify this plugin.
 	 */
-	protected $wx-db-access;
+	protected $wx_db_access;
 
 	/**
 	 * The current version of the plugin.
@@ -67,12 +67,12 @@ class wx-db-access {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'wx-db-access_VERSION' ) ) {
-			$this->version = wx-db-access_VERSION;
+		if ( defined( 'wx_db_access_VERSION' ) ) {
+			$this->version = wx_db_access_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->wx-db-access = 'wx-db-access';
+		$this->wx_db_access = 'wx_db_access';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -86,10 +86,10 @@ class wx-db-access {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - wx-db-access_Loader. Orchestrates the hooks of the plugin.
-	 * - wx-db-access_i18n. Defines internationalization functionality.
-	 * - wx-db-access_Admin. Defines all hooks for the admin area.
-	 * - wx-db-access_Public. Defines all hooks for the public side of the site.
+	 * - wx_db_access_Loader. Orchestrates the hooks of the plugin.
+	 * - wx_db_access_i18n. Defines internationalization functionality.
+	 * - wx_db_access_Admin. Defines all hooks for the admin area.
+	 * - wx_db_access_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -122,7 +122,7 @@ class wx-db-access {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wx-db-access-public.php';
 
-		$this->loader = new wx-db-access_Loader();
+		$this->loader = new wx_db_access_Loader();
 
 	}
 
@@ -137,7 +137,7 @@ class wx-db-access {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new wx-db-access_i18n();
+		$plugin_i18n = new wx_db_access_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -152,7 +152,7 @@ class wx-db-access {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new wx-db-access_Admin( $this->get_wx-db-access(), $this->get_version() );
+		$plugin_admin = new wx_db_access_Admin( $this->get_wx_db_access(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -168,7 +168,7 @@ class wx-db-access {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new wx-db-access_Public( $this->get_wx-db-access(), $this->get_version() );
+		$plugin_public = new wx_db_access_Public( $this->get_wx_db_access(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -191,15 +191,15 @@ class wx-db-access {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_wx-db-access() {
-		return $this->wx-db-access;
+	public function get_wx_db_access() {
+		return $this->wx_db_access;
 	}
 
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    wx-db-access_Loader    Orchestrates the hooks of the plugin.
+	 * @return    wx_db_access_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

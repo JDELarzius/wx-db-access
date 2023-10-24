@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    wx-db-access
- * @subpackage wx-db-access/includes
+ * @package    wx_db_access
+ * @subpackage wx_db_access/includes
  * @author     Your Name <email@example.com>
  */
-class wx-db-access_Loader {
+class wx_db_access_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.
