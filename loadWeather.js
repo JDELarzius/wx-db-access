@@ -86,20 +86,19 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 	let dewPoints = [];
 	let pressures = [];
 	
-	let highTempTime = new Date(highsAndLows.HighTempTime);
-	let lowTempTime = new Date(highsAndLows.LowTempTime);
-	let highWindTime = new Date(highsAndLows.HighWindGustTime);
-	let highRainRateTime = new Date(highsAndLows.HighRainRateTime);
+	let highTempTime = new Date(highsAndLows.Date + 'T' + highsAndLows.HighTempTime);
+	let lowTempTime = new Date(highsAndLows.Date + 'T' + highsAndLows.LowTempTime);
+	let highWindTime = new Date(highsAndLows.Date + 'T' + highsAndLows.HighWindGustTime);
+	let highRainRateTime = new Date(highsAndLows.Date + 'T' + highsAndLows.HighRainRateTime);
 	
 	//Push today's data into the data array
-	debugger;
 	for(let i = 0; i < todayData.length; i++) {
-		let thisObservationTime = new Date(todayData[i].ObservationDate);
+		let thisObservationTime = new Date(todayData[i].ObservationLocalDate + 'T' + todayData[i].ObservationLocalTime);
 		let nextObservationTime;
 		if( i === todayData.length - 1) {
-			nextObservationTime = new Date(currentObservation.ObservationDate);
+			nextObservationTime = new Date(currentObservation.ObservationLocalDate + 'T' + currentObservation.ObservationLocalTime);
 		} else {
-			nextObservationTime = new Date(todayData[i+1].ObservationDate);
+			nextObservationTime = new Date(todayData[i + 1].ObservationLocalDate + 'T' + todayData[i + 1].ObservationLocalTime);
 		}
 		
 		tempChartXAxis.push(thisObservationTime);
@@ -113,13 +112,13 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 		windChills.push(convertTemparature(todayData[i].WindChill, tempType));
 		if(highTempTime > thisObservationTime && highTempTime < nextObservationTime) {
 			tempChartXAxis.push(highTempTime);
-			temps.push(convertTemparature(currentObservation.HiTemperature, tempType));
+			temps.push(convertTemparature(highsAndLows.HighTemp, tempType));
 			heatIndexes.push(null);
 			windChills.push(null);
 		}
 		if(lowTempTime > thisObservationTime && lowTempTime < nextObservationTime) {
 			tempChartXAxis.push(lowTempTime);
-			temps.push(convertTemparature(currentObservation.LowTemperature, tempType));
+			temps.push(convertTemparature(highsAndLows.lowTemp, tempType));
 			heatIndexes.push(null);
 			windChills.push(null);
 		}
@@ -131,14 +130,14 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 		windDirections.push(todayData[i].WindDirection);
 		if(highWindTime > thisObservationTime && highWindTime < nextObservationTime) {
 			windChartXAxis.push(highWindTime);
-			winds.push(currentObservation.HiWindSpeed); 
+			winds.push(highsAndLows.HighWindGust); 
 			//Just assume the direction of the closest observation we have data for
 			if(highWindTime - thisObservationTime < nextObservationTime - highWindTime ||
 				i === todayData.length - 1) {
 				//Use the direction from the previous observation
-				windDirections.push(todayData[i].WindDirectionLetter);
+				windDirections.push(todayData[i].WindDirection);
 			} else {
-				windDirections.push(todayData[i+1].WindDirectionLetter);
+				windDirections.push(todayData[i+1].WindDirection);
 			}
 		}
 		
@@ -147,7 +146,7 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 		if(i === 0 && thisObservationTime.getHours() === 0 && thisObservationTime.getMinutes() === 0) {
 			todayRain.push(0.00);
 		} else {
-			todayRain.push(todayData[i].TodayRain);
+			todayRain.push(todayData[i].DayRain);
 		}
 		rainRates.push( highRainRateTime.getTime() === thisObservationTime.getTime() ? currentObservation.HiRainRate : todayData[i].RainRate);
 		if(highRainRateTime > thisObservationTime && highRainRateTime < nextObservationTime) {
@@ -164,8 +163,8 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 	}
 	
 	//Push information from the most recent observation into the array, if it is newer
-	let dLastTodayObservationTime = new Date(todayData[todayData.length - 1].ObservationDate);
-	let dCurrentObservationTime = new Date(currentObservation.ObservationDate);
+	let dLastTodayObservationTime = new Date(todayData[todayData.length - 1].ObservationLocalDate + 'T' + todayData[todayData.length - 1].ObservationLocalTime);
+	let dCurrentObservationTime = new Date(currentObservation.ObservationLocalDate + 'T' + currentObservation.ObservationLocalTime);
 	if(dCurrentObservationTime > dLastTodayObservationTime) {
 		tempChartXAxis.push(dCurrentObservationTime);
 		windChartXAxis.push(dCurrentObservationTime);
@@ -175,13 +174,17 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 		heatIndexes.push(convertTemparature(currentObservation.HeatIndex, tempType));
 		windChills.push(convertTemparature(currentObservation.WindChill, tempType));
 		winds.push(currentObservation.WindSpeed);
-		windDirections.push(currentObservation.WindDirectionLetter);
-		todayRain.push(currentObservation.TodayRain);
+		windDirections.push(currentObservation.WindDirection);
+		todayRain.push(currentObservation.DayRain);
 		rainRates.push(currentObservation.RainRate);
 		humidities.push(currentObservation.Humidity);
 		dewPoints.push(convertTemparature(currentObservation.DewPoint, tempType));
 		pressures.push(currentObservation.Pressure);
 	}
+
+	console.log(winds);
+	console.log(windDirections);
+	console.log(windChartXAxis);
 	
 	//Temperatures chart
 	if(charts.temperature !== undefined) { charts.temperature.destroy(); }
