@@ -181,10 +181,6 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 		dewPoints.push(convertTemparature(currentObservation.DewPoint, tempType));
 		pressures.push(currentObservation.Pressure);
 	}
-
-	console.log(winds);
-	console.log(windDirections);
-	console.log(windChartXAxis);
 	
 	//Temperatures chart
 	if(charts.temperature !== undefined) { charts.temperature.destroy(); }
