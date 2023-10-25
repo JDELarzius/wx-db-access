@@ -124,13 +124,15 @@ class wx_db_access_Loader {
 			$atts = array_change_key_case( (array) $atts, CASE_LOWER);
 			$stationId = $atts['stationid'];
 
-			$stationInfo = wx_get_from_db('select * from stations where StationID = '.$stationId);
+			$stationInfo = wx_get_from_db("select * from stations where StationID = ".$stationId);
 			$currentObs = wx_get_from_db("select * from observations WHERE StationID = ".$stationId." ORDER BY ObservationUTC DESC LIMIT 1");
 			$currentObsDate = $currentObs[0]->ObservationLocalDate;
+			$highsAndLows = wx_get_from_db("select * from highs_and_lows WHERE StationID = ".$stationId." and Date = '".$currentObsDate."'");
 			$graphData = wx_get_from_db("select * from observations WHERE StationID = ".$stationId." and ObservationLocalDate = '".$currentObsDate."' and EXTRACT(MINUTE FROM ObservationLocalTime) IN(0,10,20,30,40,50) ORDER BY ObservationUTC DESC");
 			$wxData = new stdClass();
 			$wxData->stationInfo = $stationInfo[0];
 			$wxData->currentObservation = $currentObs[0];
+			$wxData->highsAndLows = $highsAndLows[0];
 			$wxData->graphData = $graphData;
 			$wxData->currentObsDate = $currentObsDate;
 

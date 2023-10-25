@@ -1,0 +1,179 @@
+<script>
+    var stationData = JSON.parse(`[wx_station_data stationid="1"][/wx_station_data]`)
+    console.log(stationData);
+</script>
+
+<style>
+html,body {
+    width:100%;
+    overflow-x:hidden;
+}
+
+#container {
+    padding: 2%;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.light-bottom-border {
+    border-bottom: 1px solid gray;
+}
+
+.vertical-center {
+    vertical-align: middle;
+}
+
+.chart-container {
+    position: relative; 
+    height: 250px; 
+    width: 100%;
+}
+
+.flex-horizontal {
+    display: flex;
+    align-items: center;
+}
+
+.body-font {
+    color: rgb(117, 117, 117);
+    font-weight: 400;
+    font-size: 12px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+</style>
+
+<table>
+    <colgroup>
+        <col style="width:135px;">
+    </colgroup>
+    <tr>
+        <td><div class="bold">Location:</div></td>
+        <td id="stationLocation"></td>
+    </tr>
+    <tr>
+        <td><div class="bold">CoCoRaHS ID:</div></td>
+        <td id="cocorahsId"></td>
+    </tr>
+    <tr>
+        <td><div class="bold">Last Update:</div></td>
+        <td><span id="lastUpdate"></span></td>
+    </tr>
+</table>
+
+<div class="flex-horizontal body-font">
+    <div>Show Temperatures in </div>
+    <input type="radio" name="tempType" id="degreesF" value="F" checked="checked" onchange="reloadView()">
+    <label for="degreesF">Fahrenheit</label>
+    <input type="radio" name="tempType" id="degreesC" value="C" onchange="reloadView()">
+    <label for="degreesC">Celsius</label>
+</div>
+
+<table style="width:435px;">
+    <colgroup>
+        <col style="width:110px;">
+        <col style="width:115px;">
+        <col style="width:60px;">
+        <col style="width:150px;">
+    </colgroup>
+    <tr>
+        <td class="light-bottom-border vertical-center" rowspan="2"><div class="bold">Temperature:</div></td>
+        <td class="light-bottom-border vertical-center" rowspan="2"><span id="currenttemp"></span></td>
+        <td><div class="bold">High:</div></td>
+        <td><span id="hitemp"></span></td>
+    </tr>
+    <tr>
+        <td class="light-bottom-border"><div class="bold">Low:</div></td>
+        <td class="light-bottom-border"><span id="lowtemp"></span></td>
+    </tr>
+    <tr>
+        <td class="light-bottom-border"><div class="bold">Heat Index: </div></td>
+        <td class="light-bottom-border"><span id="heatindex"></span></td>
+        <td class="light-bottom-border"><div class="bold">High:</div></td>
+        <td class="light-bottom-border"><span id="hiheatindex"></span></td>
+    </tr>
+    <tr>
+        <td><div class="bold">Wind Chill: </div></td>
+        <td><span id="windchill"></span></td>
+        <td><div class="bold">Low: </div></td>
+        <td><span id="lowwindchill"></span></td>
+    </tr>
+</table>
+
+<div class="chart-container"><canvas id="tempChart"></canvas></div>
+
+<table>
+    <tr>
+        <td><div class="bold">Current Winds:</div></td>
+        <td><div class="bold">10 Minute Average:</div></td>
+        <td><div class="bold">High Gust Today:</div></td>
+    </tr>
+    <tr>
+        <td><span id="currentwind"></span></td>
+        <td><span id="tenminavgwind"></span></td>
+        <td><span id="highwind"></span></td>
+    </tr>
+</table>
+
+<div class="chart-container"><canvas id="windChart"></canvas></div>
+
+<table>
+    <tr>
+        <td><div class="bold">Today Rain:</div></td>
+        <td><div class="bold">Storm Rain:</div></td>
+        <td><div class="bold">Month Rain:</div></td>
+        <td><div class="bold">Year Rain:</div></td>
+    </tr>
+    <tr>
+        <td><span id="dayrain"></span></td>
+        <td><span id="stormrain"></span></td>
+        <td><span id="monthrain"></span></td>
+        <td><span id="yearrain"></span></td>
+    </tr>
+    <tr>
+        <td colspan="2"><div class="bold">Rain Rate:</div></td>
+        <td colspan="2"><div class="bold">High Rain Rate:</div></td>
+    </tr>
+    <tr>
+        <td colspan="2"><span id="rainrate"></span></td>
+        <td colspan="2"><span id="highrainrate"></span></td>
+    </tr>
+</table>
+
+<div class="chart-container"><canvas id="rainChart"></canvas></div>
+
+<table>
+    <colgroup>
+        <col style="width:33%;">
+        <col style="width:33%;">
+        <col style="width:34%;">
+    </colgroup>  
+    <tr>
+        <td><div class="bold">Humidity:</div></td>
+        <td><div class="bold">Dew Point:</div></td>
+        <td><div class="bold">Pressure:</div></td>
+    </tr>
+    <tr>
+        <td><span id="humidity"></span></td>
+        <td><span id="dewPoint"></span></td>
+        <td><span id="pressure"></span></td>
+    </tr>
+    <tr>
+        <td><span id="showHumidity" onclick="showHumidityClick();" style="display:none;text-decoration:underline;color:#007acc;">Show on Chart</span></td>
+        <td><span id="showDewPoint" onclick="showDewPointClick();" style="text-decoration:underline;color:#007acc;">Show on Chart</span></td>
+        <td><span id="showPressure" onclick="showPressureClick();" style="text-decoration:underline;color:#007acc;">Show on Chart</span></td>
+    </tr>
+</table>
+
+<div id="humidityContainer" class="chart-container"><canvas id="humidityChart"></canvas></div>
+<div id="dewPointContainer" class="chart-container" style="display:none;"><canvas id="dewPointChart"></canvas></div>
+<div id="pressureContainer" class="chart-container" style="display:none;"><canvas id="pressureChart"></canvas></div>
+
+<br>
+<div class="bold">Webcam Image</div>
+<div id="webcam"></div>
+
+<script src="/weather/scripts/jquery-3.4.1.min.js"></script>
+<script src="/weather/scripts/Chart.bundle.min.js"></script>
+<script src="/weather/scripts/loadWeather.js"></script>
