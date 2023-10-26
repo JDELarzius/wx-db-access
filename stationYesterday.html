@@ -1,0 +1,69 @@
+<script>
+    var stationData = JSON.parse(`[wx_station_data_yesterday stationid="1"][/wx_station_data_yesterday]`)
+    console.log(stationData);
+</script>
+
+<style>
+html,body {
+    width:100%;
+    overflow-x:hidden;
+}
+#container {
+    padding: 2%;
+}
+
+.chart-container {
+    position: relative; 
+    height: 250px; 
+    width: 100%
+}
+
+.flex-horizontal {
+    display: flex;
+    align-items: center;
+}
+
+.body-font {
+    color: rgb(117, 117, 117);
+    font-weight: 400;
+    font-size: 12px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+</style>
+
+<table>
+    <colgroup>
+        <col style="width:135px;">
+    </colgroup>
+    <tr>
+        <td><div class="bold">Location:</div></td>
+        <td id="stationLocation"></td>
+    </tr>
+    <tr>
+        <td><div class="bold">CoCoRaHS ID:</div></td>
+        <td id="cocorahsId"></td>
+    </tr>
+    <tr>
+        <td><strong>Conditions For:</strong></td>
+        <td><span id="day"></span></td>
+    </tr>
+</table>
+
+<div class="flex-horizontal body-font">
+    <div>Show Temperatures in </div>
+    <input type="radio" name="tempType" id="degreesF" value="F" checked="checked" onchange="reloadView()">
+    <label for="degreesF">Fahrenheit</label>
+    <input type="radio" name="tempType" id="degreesC" value="C" onchange="reloadView()">
+    <label for="degreesC">Celsius</label>
+</div>
+
+<div class="chart-container"><canvas id="tempChart"></canvas></div>
+<div class="chart-container"><canvas id="windChart"></canvas></div>
+<div class="chart-container"><canvas id="rainChart"></canvas></div>
+<div class="chart-container"><canvas id="humidityChart"></canvas></div>
+<div class="chart-container"><canvas id="dewPointChart"></canvas></div>
+<div class="chart-container"><canvas id="pressureChart"></canvas></div>
+
+<script src="/weather/scripts/jquery-3.4.1.min.js"></script>
+<script src="/weather/scripts/Chart.bundle.min.js"></script>
+<script src="/weather/scripts/yesterdayWeatherSql.js"></script>
