@@ -24,16 +24,17 @@ function reloadView() {
 	
 	let station = stationInfo.StationName.substring(0,4).toLowerCase();
 
-	setStationInfo(stationInfo);
+	setStationInfo(stationInfo, station);
 	setObservationTime(currentObservation.ObservationLocalDate, currentObservation.ObservationLocalTime, currentObservation.ObservationUTC, stationInfo.TimeZone);
 	setCurrentObservations(currentObservation, highsAndLows, tempType);
 	setTodayObservations(currentObservation, highsAndLows, todayData, tempType);
 	setWebcamImage(station);
 }
 
-function setStationInfo(stationInfo) {
+function setStationInfo(stationInfo, stationName) {
 	$('#stationLocation').text(`${stationInfo.Location} (${stationInfo.StationLat}N, ${stationInfo.StationLon}W)`);
-	$('#cocorahsId').text(stationInfo.CoCoRaHSID)
+	$('#cocorahsId').text(stationInfo.CoCoRaHSID);
+	$('#yesterday').html(`&nbsp;&nbsp;&nbsp;<a href="/weather-stations/${stationName}s-weather-station/yesterday/">See Yesterday's Data</a>`);
 }
 
 function setCurrentObservations(currentObservation, highsAndLows, tempType) {
