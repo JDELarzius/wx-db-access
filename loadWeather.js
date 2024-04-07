@@ -127,7 +127,7 @@ function setTodayObservations(currentObservation, highsAndLows, todayData, tempT
 		//Winds
 		//It's possible to have a much higher gust during one of our regular observation points that 
 		//isn't at the actual snapshot time, so use our high wind gust time if the time matches exaclty
-		winds.push( highWindTime.getTime() === thisObservationTime.getTime() ? currentObservation.HiWindSpeed : todayData[i].WindSpeed);
+		winds.push( highWindTime.getTime() === thisObservationTime.getTime() ? highsAndLows.HighWindGust : todayData[i].WindSpeed);
 		windDirections.push(todayData[i].WindDirection);
 		if(highWindTime > thisObservationTime && highWindTime < nextObservationTime) {
 			windChartXAxis.push(highWindTime);
