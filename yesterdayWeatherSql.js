@@ -67,7 +67,7 @@ function setObservations(targetDayData, tempType) {
 		if(i === 0 && thisObservationTime.getHours() === 0 && thisObservationTime.getMinutes() === 0) {
 			todayRain.push(0.00);
 		} else {
-			todayRain.push(targetDayData[i].TodayRain);
+			todayRain.push(targetDayData[i].DayRain);
 		}
 		rainRates.push(targetDayData[i].RainRate);
 		
